@@ -6,6 +6,7 @@ import pl.coderslab.model.BookService;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Component
 public class MemoryBookService implements BookService {
 
@@ -35,6 +36,7 @@ public class MemoryBookService implements BookService {
 
     @Override
     public void add(Book book) {
-
+        list.add(book);
+        book.setId(nextId++);
     }
 }
