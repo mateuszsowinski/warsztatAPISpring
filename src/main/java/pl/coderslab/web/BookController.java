@@ -2,13 +2,17 @@ package pl.coderslab.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import pl.coderslab.model.Book;
 import pl.coderslab.model.BookService;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.SimpleFormatter;
 
 @RestController
 @RequestMapping("/books")
@@ -39,8 +43,25 @@ public class BookController {
 
     @PostMapping("")
     public void addBook(@RequestBody Book book) {
-        logger.info("Add book to database");
+        logger.info(localDateTime + " Add book to database");
         bookService.add(book);
     }
 
+    @GetMapping("/{id}")
+    @ResponseBody
+    public Book showById(@PathVariable Long id)  {
+        return bookService.showById(id).orElseThrow(() -> {
+            logger.error(localDateTime + "number not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "number not found");
+
+        });
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public void deleteById(@PathVariable Long id) {
+      bookService.deleteById(id);
+    }
 }
+
+

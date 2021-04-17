@@ -5,7 +5,10 @@ import pl.coderslab.model.Book;
 import pl.coderslab.model.BookService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class MemoryBookService implements BookService {
@@ -39,4 +42,15 @@ public class MemoryBookService implements BookService {
         list.add(book);
         book.setId(nextId++);
     }
+
+    @Override
+    public Optional<Book> showById(Long id) {
+        return list.stream().filter(i -> i.getId().equals(id)).findFirst();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        list.removeIf(i-> i.getId().equals(id));
+    }
+
 }
