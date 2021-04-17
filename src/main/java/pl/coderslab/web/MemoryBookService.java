@@ -50,7 +50,16 @@ public class MemoryBookService implements BookService {
 
     @Override
     public void deleteById(Long id) {
-        list.removeIf(i-> i.getId().equals(id));
+        list.removeIf(i -> i.getId().equals(id));
+    }
+
+    @Override
+    public void edit(Book book) {
+     int index = list.indexOf(book.getId());
+     list.set(Math.toIntExact(index),book);
+
     }
 
 }
+
+

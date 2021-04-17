@@ -8,11 +8,8 @@ import org.springframework.web.server.ResponseStatusException;
 import pl.coderslab.model.Book;
 import pl.coderslab.model.BookService;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.logging.FileHandler;
-import java.util.logging.SimpleFormatter;
 
 @RestController
 @RequestMapping("/books")
@@ -42,6 +39,7 @@ public class BookController {
     }
 
     @PostMapping("")
+    @ResponseBody
     public void addBook(@RequestBody Book book) {
         logger.info(localDateTime + " Add book to database");
         bookService.add(book);
@@ -49,9 +47,9 @@ public class BookController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    public Book showById(@PathVariable Long id)  {
+    public Book showById(@PathVariable Long id) {
         return bookService.showById(id).orElseThrow(() -> {
-            logger.error(localDateTime + "number not found");
+            logger.info(localDateTime + "Show book id: " + id);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "number not found");
 
         });
@@ -60,7 +58,14 @@ public class BookController {
     @DeleteMapping("/{id}")
     @ResponseBody
     public void deleteById(@PathVariable Long id) {
-      bookService.deleteById(id);
+        logger.error(localDateTime + "Delete book: "+id);
+        bookService.deleteById(id);
+    }
+    @PutMapping("")
+    @ResponseBody
+    public void update(@RequestBody Book book){
+        logger.info(localDateTime + " : Update"+ book);
+        bookService.edit(book);
     }
 }
 

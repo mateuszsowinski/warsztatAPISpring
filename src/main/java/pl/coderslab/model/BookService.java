@@ -10,5 +10,6 @@ public interface BookService {
     void add(Book book);
     Optional<Book> showById(Long id);
     void deleteById(Long id);
+    void edit(Book book);
 
 }
